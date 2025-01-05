@@ -1,0 +1,97 @@
+[tool.poetry]
+name = "sql-helper"
+version = "0.1.0"
+description = "Custom SQL helpers for SQLAlchemy"
+authors = ["Hayes <92khsang@gmail.com>"]
+readme = "README.md"
+packages = [{ include = "sql_helper" }]
+license = "MIT"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Database",
+]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+sqlalchemy = "^2.0"
+
+[tool.poetry.group.dev.dependencies]
+nox = "^2024.0.0"
+ruff = "^0.3.0"
+black = "^24.2.0"
+mypy = "^1.8.0"
+
+[tool.poetry.group.test.dependencies]
+pytest = "^8.0.0"
+pytest-mock = "^3.14.0"
+pytest-asyncio = "^0.23.0"
+pytest-dotenv = "^0.5.2"
+pytest-xdist = "^3.5.0"
+pytest-cov = "^4.1.0"
+docker = "^6.1.3"
+
+[tool.poetry.group.db.dependencies]
+psycopg = { version = "^3.1", extras = ["binary"] }
+pymysql = "^1.0"
+aiomysql = "^0.1"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+asyncio_mode = "auto"
+addopts = "-ra --tb=short"
+log_cli_level = "INFO"
+markers = [
+    "unit: Unit tests",
+    "integration: Integration tests",
+    "database: Database related tests",
+    "model: Model related tests",
+    "repository: Repository related tests",
+    "transaction: Transaction related tests",
+    "slow: Slow running tests",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "if TYPE_CHECKING:",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    ".*pragma: no cover.*",
+    "return NotImplemented",
+]
+
+[tool.coverage.run]
+branch = true
+omit = [
+    "sql_helper/__init__.py",
+    "tests/*",
+]
+
+[tool.black]
+line-length = 88
+target-version = ["py310", "py311", "py312"]
+include = '\.pyi?$'
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+select = [
+    "E", # pycodestyle errors
+    "W", # pycodestyle warnings
+    "F", # pyflakes
+    "I", # isort
+    "C", # flake8-comprehensions
+    "B", # flake8-bugbear
+]
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+check_untyped_defs = true
