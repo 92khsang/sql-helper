@@ -6,7 +6,7 @@ from sql_helper.database.utils import (
     DatabaseConfigValidator,
     DatabaseURLBuilder,
 )
-from tests.utils import update_config
+from tests.utils import ConfigUtils
 
 
 class TestDatabaseConfigValidator:
@@ -21,25 +21,25 @@ class TestDatabaseConfigValidator:
 
     def test_missing_credentials(self, postgres_config):
         """Test validation raises error for missing credentials."""
-        invalid_config = update_config(postgres_config, credentials=None)
+        invalid_config = ConfigUtils.update_config(postgres_config, credentials=None)
         with pytest.raises(ValueError, match="postgresql requires credentials"):
             DatabaseConfigValidator.validate(invalid_config)
 
     def test_invalid_async_support(self, sqlite_config):
         """Test validation raises error for invalid async support."""
-        invalid_config = update_config(sqlite_config, enable_async=True)
+        invalid_config = ConfigUtils.update_config(sqlite_config, enable_async=True)
         with pytest.raises(ValueError, match="sqlite does not support async operations"):
             DatabaseConfigValidator.validate(invalid_config)
 
     def test_invalid_port_number(self, postgres_config):
         """Test validation raises error for invalid port number."""
-        invalid_config = update_config(postgres_config, port=-1)
+        invalid_config = ConfigUtils.update_config(postgres_config, port=-1)
         with pytest.raises(ValueError, match="Invalid port number"):
             DatabaseConfigValidator.validate(invalid_config)
 
     def test_empty_database_name(self, postgres_config):
         """Test validation raises error for empty database name."""
-        invalid_config = update_config(postgres_config, database="")
+        invalid_config = ConfigUtils.update_config(postgres_config, database="")
         with pytest.raises(ValueError, match="Database name cannot be empty"):
             DatabaseConfigValidator.validate(invalid_config)
 
@@ -53,7 +53,7 @@ class TestDatabaseConfigValidator:
         ]
 
         for field, value, error_message in invalid_configs:
-            invalid_config = update_config(
+            invalid_config = ConfigUtils.update_config(
                 postgres_config,
                 **{
                     field: value

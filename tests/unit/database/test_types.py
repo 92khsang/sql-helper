@@ -1,6 +1,6 @@
 import pytest
 
-from sql_helper.database import DatabaseType
+from sql_helper import DatabaseType
 
 
 def test_database_type_sync_driver():
@@ -35,3 +35,11 @@ def test_database_type_requires_auth():
     assert DatabaseType.MYSQL.requires_auth is True
     assert DatabaseType.MARIADB.requires_auth is True
     assert DatabaseType.SQLITE.requires_auth is False
+
+
+def test_database_type_requires_host():
+    """Test requires_host property for all database types."""
+    assert DatabaseType.POSTGRESQL.requires_host is True
+    assert DatabaseType.MYSQL.requires_host is True
+    assert DatabaseType.MARIADB.requires_host is True
+    assert DatabaseType.SQLITE.requires_host is False

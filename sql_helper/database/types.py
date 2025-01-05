@@ -44,6 +44,11 @@ class DatabaseType(Enum):
         return self not in {DatabaseType.SQLITE, DatabaseType.POSTGRESQL}
 
     @property
+    def requires_host(self) -> bool:
+        """Check if a database type requires host and port"""
+        return self != DatabaseType.SQLITE
+
+    @property
     def requires_auth(self) -> bool:
         """Check if a database type requires authentication"""
         return self != DatabaseType.SQLITE

@@ -6,7 +6,7 @@ from typing import (
 
 import pytest
 
-from sql_helper.database import (
+from sql_helper import (
     Database,
     DatabaseConfig,
     DatabaseCredentials,
@@ -21,8 +21,6 @@ def sqlite_config() -> DatabaseConfig:
     """SQLite configuration (sync only)."""
     return DatabaseConfig(
         type=DatabaseType.SQLITE,
-        host="",
-        port=0,
         database=":memory:",
         enable_async=False,
     )

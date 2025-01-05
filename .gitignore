@@ -82,6 +82,7 @@ Thumbs.db
 
 # Project specific
 docker/data/
+tests/data/
 .env.local
 .env.*.local
 

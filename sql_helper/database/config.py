@@ -40,9 +40,9 @@ class SSLConfig:
 class DatabaseConfigProtocol(Protocol):
     """Protocol defining the required attributes for database configuration."""
     type: DatabaseType
-    host: str
-    port: int
     database: str
+    host: Optional[str]
+    port: Optional[int]
     credentials: Optional[DatabaseCredentials]
     ssl: Optional[SSLConfig]
     charset: Optional[str]
@@ -60,9 +60,9 @@ class DatabaseConfigProtocol(Protocol):
 class DatabaseConfig:
     """Database configuration"""
     type: DatabaseType
-    host: str
-    port: int
     database: str
+    host: Optional[str] = None
+    port: Optional[int] = None
     credentials: Optional[DatabaseCredentials] = None
     ssl: Optional[SSLConfig] = None
     echo_sql: bool = False

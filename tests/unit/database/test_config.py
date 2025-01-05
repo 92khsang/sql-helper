@@ -1,6 +1,6 @@
 import pytest
 
-from sql_helper.database import (
+from sql_helper import (
     DatabaseConfig,
     DatabaseType,
     SSLConfig,

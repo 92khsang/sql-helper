@@ -3,17 +3,23 @@ from pathlib import Path
 
 import pytest
 
+from tests.settings import (
+    LOGGING_CONFIG,
+    PROJECT_ROOT,
+    TEST_DATA_DIR,
+)
+
 
 @pytest.fixture(scope="session")
 def project_root() -> Path:
     """Return the project root directory."""
-    return Path(__file__).parent.parent
+    return PROJECT_ROOT
 
 
 @pytest.fixture(scope="session")
-def test_data_dir(project_root: Path) -> Path:
+def test_data_dir() -> Path:
     """Return the test data directory."""
-    return project_root / "tests" / "data"
+    return TEST_DATA_DIR
 
 
 @pytest.fixture
@@ -44,9 +50,9 @@ def pytest_configure(config):
     """Configure logging for sql_helper module."""
     module_logger = logging.getLogger("sql_helper")
 
-    log_level = config.getoption("--log-cli-level", default="CRITICAL")
+    log_level = config.getoption("--log-cli-level", default=LOGGING_CONFIG["default_level"])
     if not isinstance(log_level, str):
-        log_level = "CRITICAL"
+        log_level = LOGGING_CONFIG["default_level"]
 
     module_logger.setLevel(log_level)
 
@@ -57,8 +63,8 @@ def pytest_configure(config):
     # Add a new StreamHandler with custom formatting
     handler = logging.StreamHandler()
     formatter = logging.Formatter(
-        fmt="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-        datefmt="%Y-%m-%d %H:%M:%S"
+        fmt=LOGGING_CONFIG["format"],
+        datefmt=LOGGING_CONFIG["datefmt"]
     )
     handler.setFormatter(formatter)
     module_logger.addHandler(handler)

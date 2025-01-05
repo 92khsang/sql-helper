@@ -45,7 +45,7 @@ class DatabaseConfigValidator:
     @staticmethod
     def _validate_port(config: 'DatabaseConfigProtocol') -> None:
         """Validate port number."""
-        if not (0 <= config.port <= 65535):
+        if config.type.requires_host and not (0 <= config.port <= 65535):
             raise ValueError(f"Invalid port number: {config.port}")
 
     @staticmethod
